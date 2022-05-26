@@ -44,7 +44,7 @@ function wrapSelection(sel) {
     if (sel) {
         var wrapper = document.createElement("p");
         wrapper.classList.add('selection-wrapper')
-        sel = window.getSelection();
+        sel = getFieldSelection();
         if(sel.toString().length < 2) return;
         if (sel.getRangeAt && sel.rangeCount) {
             range = sel.getRangeAt(0);
@@ -54,8 +54,8 @@ function wrapSelection(sel) {
 }
 
 function selBrackDelete() {
-  const sel = window.getSelection();
-  var cur = get_field(sel);
+  const sel = getFieldSelection();
+  var cur = getCurrentField();
   ogHtml = cur.innerHTML;
   var startCont, startOff, endCont, endOff;
   [startCont, startOff,endCont, endOff] = wrapSelection(sel);

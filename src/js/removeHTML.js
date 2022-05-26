@@ -1,6 +1,5 @@
 function removeHTML() {
-  const sel = window.getSelection();
-  const field = get_field(sel);
+  const field = getCurrentField();
   let text = field.innerHTML;
   if (text === "") return;
   field.innerHTML = '';

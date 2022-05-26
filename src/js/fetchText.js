@@ -1,10 +1,9 @@
 function fetchCText() {
-  const sel = window.getSelection();
-  const field = get_field(sel);
+  const field = getCurrentField();
   const text = field.innerHTML;
-  pycmd("textToCReading:||:||:" + text + ':||:||:' +  currentField.id.substring(1) + ':||:||:' + currentNoteId);
-  
-  
+  getCurrentFieldOrdinal().then((ordinal) => {
+    pycmd("textToCReading:||:||:" + text + ':||:||:' +  ordinal + ':||:||:' + currentNoteId);
+  })
 }
 try {
   fetchCText();

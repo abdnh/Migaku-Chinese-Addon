@@ -3,8 +3,8 @@ function cleanUpSpaces(text){
 }
 
 function removeBrackets() {
-  const sel = window.getSelection();
-  const field = get_field(sel);
+  const sel = getFieldSelection();
+  const field = getCurrentField();
   let text = field.innerHTML;
   if (text === "") return;
   if(!/\[[^\[]*?\]/.test(text))return;

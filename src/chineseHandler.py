@@ -163,7 +163,8 @@ class ChineseHandler():
             return fetchTextFile.read()  
 
     def addCReadings(self, editor):
-        editor.web.eval(self.commonJS + self.fetchTextJS)
+        # TODO: get the current note's id using getNoteId() in 2.1.53
+        editor.web.eval(self.commonJS + self.fetchTextJS.replace('currentNoteId', f'"{editor.note.id}"'))
 
     def getCommonJS(self):
         common_utils_path = join(self.path, "js", "common.js")
@@ -412,7 +413,7 @@ class ChineseHandler():
                 self.addToNote(editor, note, altField, ordinal, self.getSimpTradString(note[altField], varAr, text, simplified, traditional))
 
     def getFieldOrdinal(self, note, field):
-        fields = note._model["flds"]
+        fields = note.note_type()["flds"]
         for f in fields:
             if field == f['name']:
                 return f['ord']

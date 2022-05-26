@@ -49,14 +49,35 @@ function clean_field(field) {
   field.appendChild(new_field);
 }
 
-function is_field(node) {
-  return node.nodeName === "DIV" && node.classList.contains("field");
-}
-function get_field(sel) {
-  var node = sel.baseNode;
-  while (node && !is_field(node)) {
-    node = node.parentNode;
-  }
-  return node;
+function getCurrentFieldShadowRoot() {
+  return document.activeElement.shadowRoot;
 }
 
+function getCurrentField() {
+  return getCurrentFieldShadowRoot().querySelector("anki-editable");
+}
+
+async function getCurrentFieldOrdinal() {
+  const target = document.activeElement?.shadowRoot?.host;
+  let fieldOrdinal = null;
+  const fields = require("anki/NoteEditor").instances[0].fields;
+  for (const [index, fieldApi] of fields.entries()) {
+      const field = await fieldApi.element;
+      if (field.contains(target)) {
+          fieldOrdinal = index;
+          break;
+      }
+  }
+  return fieldOrdinal;
+}
+
+function getFieldSelection() {
+  return getCurrentFieldShadowRoot().getSelection();
+}
+
+async function getFieldByOrdinal(ordinal) {
+  const fields = require("anki/NoteEditor").instances[0].fields;
+  const field = await fields[ordinal].element;
+  const editable = field.querySelector(".rich-text-editable").shadowRoot.querySelector("anki-editable");
+  return editable;
+}

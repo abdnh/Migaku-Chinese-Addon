@@ -6,6 +6,7 @@ import sys
 import math
 from anki.hooks import addHook
 from aqt.qt import *
+from aqt import qtmajor
 from aqt.utils import openLink, tooltip
 from anki.utils import isMac, isWin, isLin
 from anki.lang import _
@@ -20,6 +21,14 @@ from .miutils import miInfo, miAsk
 from operator import itemgetter
 from aqt.theme import theme_manager
 
+try:
+    # QSvgWidget was apparently moved to a different package in the latest versions of Qt
+    if qtmajor >= 6:
+        from PyQt6.QtSvgWidgets import QSvgWidget
+    else:
+        from  PyQt5.QtSvg import QSvgWidget
+except:
+    pass
 
 versionNumber = "ver. 1.2.3"
 
@@ -576,7 +585,7 @@ class SettingsGui(QScrollArea):
         "}")
         afTable.setSortingEnabled(True)
         afTable.setColumnCount(8)
-        afTable.setSelectionBehavior(QTableView.SelectRows);
+        afTable.setSelectionBehavior(QAbstractItemView.SelectRows);
         afTable.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff);
         tableHeader = afTable.horizontalHeader()
         afTable.setHorizontalHeaderLabels(['Profile', 'Note Type', 'Card Type', 'Field', 'Side', 'Display Type', 'Reading Type', ''])
@@ -589,7 +598,7 @@ class SettingsGui(QScrollArea):
         tableHeader.setSectionResizeMode(6, QHeaderView.Stretch)
         tableHeader.setSectionResizeMode(7, QHeaderView.Fixed)
         afTable.setColumnWidth(7, 40)
-        afTable.setEditTriggers(QTableWidget.NoEditTriggers)
+        afTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
         return afTable
 
     def enableSep(self, sep):

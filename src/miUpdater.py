@@ -8,8 +8,7 @@ from anki.httpclient import HttpClient
 addonId = 498302176
 dledIds = []
 
-
-def shutdownDB( parent, mgr, ids, on_done, client):
+def shutdownDB(parent, mgr, ids, *args):
     global dledIds 
     dledIds = ids
     if addonId in ids and hasattr(mw, 'MigakuChinese'):
@@ -23,7 +22,7 @@ def restartDB(*args):
     if addonId in dledIds and hasattr(mw, 'MigakuChinese'):
         miInfo('Migaku Chinese has been updated. Migaku Chinese will not function properly until Anki is restarted. Please restart Anki to start using the new version now!')
 
-def wrapOnDone(self, log):
+def wrapOnDone(self, fut):
     self.mgr.mw.progress.timer(50, lambda: restartDB(), False)
 
 addons.download_addons = wrap(addons.download_addons, shutdownDB, 'before')

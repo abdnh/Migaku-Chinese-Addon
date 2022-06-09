@@ -92,7 +92,7 @@ def openChineseSettings():
     if not mw.miChineseSettings:
         mw.miChineseSettings = SettingsGui(mw, addonPath, colArray, chineseModeler, autoCssJs, openChineseSettings)
     mw.miChineseSettings.show()
-    if mw.miChineseSettings.windowState() == Qt.WindowMinimized:
+    if mw.miChineseSettings.windowState() == Qt.WindowState.WindowMinimized:
             # Window is minimised. Restore it.
            mw.miChineseSettings.setWindowState(Qt.WindowNoState)
     mw.miChineseSettings.setFocus()
@@ -210,7 +210,7 @@ def onRegenerate(browser):
         generateWidget.setWindowTitle("Generate Chinese Readings")
         generateWidget.setWindowIcon(QIcon(join(addonPath, 'icons', 'migaku.png')))
         generateWidget.setLayout(layout)
-        generateWidget.exec_()
+        generateWidget.exec()
     else:
         miInfo('Please select some cards before attempting to mass generate.')
 
